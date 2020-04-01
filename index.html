@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Have you been pwned?</title>
+    <script src="https://unpkg.com/vanilla-datatables@1.6.16/dist/vanilla-dataTables.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <style>
+        td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body style="background-color: #aaa; color: #222; padding-left: 20vw; padding-right: 20vw;">
+    <h2>User Data Leak <span style="font-size: 0.75rem; opacity: 0.6;">Site: kater.me; kater.os.tc.me; acg.team;</span>
+    </h2>
+    <hr>
+
+    <table id="pwned">
+        <thead>
+            <tr>
+                <th>User Identification</th>
+                <th>IP Address</th>
+                <th>Password</th>
+                <th>Token (SHA-1)</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+        (async function () {
+            let rawdata = await fetch("./pwned.txt").then(function (response) {
+                return response.text()
+            }).then(function (text) {
+                return text;
+            });
+
+            let rows = rawdata.split("\n");
+            let datas = [];
+
+            rows.forEach(function (row) {
+                let cols = row.split(",");
+                datas.push(cols);
+            });
+
+            let t = document.querySelector("table#pwned");
+
+            let tableData = {
+                "data": datas
+            };
+
+            let dataTable = new DataTable(t, {
+                data: tableData
+            });
+        })()
+    </script>
+</body>
+
+</html>
