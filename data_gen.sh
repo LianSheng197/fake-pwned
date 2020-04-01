@@ -8,7 +8,7 @@ for i in {1..7450}; do
         ip=$(($RANDOM % 239 + 1)); 
         for j in {1..3}; do 
             temp=$(($RANDOM % 256)); 
-            ip="$ip:$temp"; 
+            ip="$ip.$temp"; 
         done 
 
         # [$password] Generate fake password
